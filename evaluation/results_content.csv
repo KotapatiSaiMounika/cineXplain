@@ -1,4 +1,4 @@
 method,Precision@10,Recall@10,GenreMatch@10,users_evaluated
-random,0.0005,0.0006,0.6405,195
-tfidf,0.001,0.0011,0.9877,195
-embeddings,0.0015,0.0018,0.8159,195
+random,0.0003,0.0002,0.6219,588
+tfidf,0.0026,0.0072,0.982,588
+embeddings,0.0017,0.0038,0.8136,588
