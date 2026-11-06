@@ -60,7 +60,7 @@ Example (embeddings, seed *Toy Story*):
 ### 4. Evaluate
 
 ```bash
-python evaluation/content_metrics.py --k 10 --users 600
+python evaluation/content_metrics.py --k 10 --users 3000
 ```
 
 ## Design
