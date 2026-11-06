@@ -92,3 +92,61 @@ def evaluate_user(
             recommended, relevant, k
         )
     }
+
+def evaluate_all_users(
+    recommendations,
+    test_ratings,
+    k=10,
+    relevance_threshold=4.0
+):
+    """
+    Evaluate recommendations against held-out ratings.
+    
+    recommendations columns:
+        userId, movieId, hybrid_score
+    """
+
+    import pandas as pd
+
+    results = []
+
+    relevant_test = test_ratings[
+        test_ratings["rating"] >= relevance_threshold
+    ]
+
+    for user_id, group in recommendations.groupby("userId"):
+
+        ranked_movies = (
+            group.sort_values(
+                "hybrid_score",
+                ascending=False
+            )["movieId"].tolist()
+        )
+
+        relevant_movies = set(
+            relevant_test[
+                relevant_test["userId"] == user_id
+            ]["movieId"]
+        )
+
+        if not relevant_movies:
+            continue
+
+        metrics = evaluate_user(
+            ranked_movies,
+            relevant_movies,
+            k
+        )
+
+        metrics["userId"] = user_id
+        results.append(metrics)
+
+    if not results:
+        raise ValueError("No users with relevant test ratings.")
+
+    results_df = pd.DataFrame(results)
+
+    return results_df, results_df.drop(
+        columns=["userId"]
+    ).mean()
+
