@@ -111,17 +111,18 @@ scores = rec.get_content_scores({1: 5.0, 296: 4.5, 50: 2.0},
 - **GenreMatch@10:** share of recommendations that share at least one of the user's top-3 liked genres (a sanity check, not a quality score)
 - **Random baseline** to show the model beats chance
 
-**Results (588 users, K = 10):**
+**Results (2,952 users, K = 10; a random sample of 3,000 users with at least 20 ratings):**
 
 | Method | Precision@10 | Recall@10 | GenreMatch@10 |
 |---|---|---|---|
-| Random | 0.0003 | 0.0002 | 0.622 |
-| TF-IDF | 0.0026 | 0.0072 | 0.982 |
-| Sentence embeddings | 0.0017 | 0.0038 | 0.814 |
+| Random | 0.0006 | 0.0003 | 0.625 |
+| TF-IDF | 0.0033 | 0.0067 | 0.984 |
+| Sentence embeddings | 0.0013 | 0.0030 | 0.814 |
+
 
 ### TF-IDF vs sentence embeddings
 
-Both content-based methods clearly beat the random baseline (roughly 5 to 9 times higher Precision@10). TF-IDF scored slightly higher in this run, likely because it weights genres and exact name tokens (cast, title), which match well with a profile built from liked movies. Sentence embeddings capture plot semantics and give more thematically varied recommendations (lower genre overlap, 0.81 vs 0.98), but the absolute differences are only a handful of hits and should not be treated as conclusive. In an earlier run on 195 users the order was reversed, which shows how noisy the comparison is. Top-10 overlap between the two methods is low to moderate (Jaccard about 0.3 to 0.5 in the demos), so they surface genuinely different movies, which can be useful in a hybrid.
+Both content-based methods beat the random baseline, but TF-IDF is clearly stronger in this setup: Precision@10 of 0.0033 vs 0.0013 for embeddings and 0.0006 for random (roughly 97 vs 38 vs 18 hits across 2,952 users). TF-IDF's representation weights genres, cast names and franchise or title tokens, which line up well with a taste profile built from liked movies. Sentence embeddings capture plot semantics and give more thematically varied lists (GenreMatch 0.81 vs 0.98), but averaging many liked movies into one embedding appears to dilute the signal, so they recover fewer of the hidden liked movies. Smaller runs (195 and 588 users) showed the order flipping, which was noise from too few hits. All results come from a single 80/20 split with seed 42, so they should be read as indicative. Top-10 overlap between the two methods is low to moderate (Jaccard about 0.2 to 0.5 in the demos), so they surface different movies, which can still be useful in a hybrid. Absolute precision is low for both, as expected for content-only recommendation with no popularity or collaborative signal; this motivates the hybrid model.
 
 ## Limitations
 
@@ -140,3 +141,5 @@ Both content-based methods clearly beat the random baseline (roughly 5 to 9 time
 | `scripts/enrich_metadata.py` | Fetches plot, cast and collection from TMDB |
 | `evaluation/content_metrics.py` | Train/test evaluation with Precision, Recall, GenreMatch and a random baseline |
 | `evaluation/results_content.csv` | Latest evaluation results |
+| `notebooks/eda.ipynb` | Metadata exploration: missing data, genre and year distributions, TMDB coverage, ratings overview |
+| `notebooks/demo.ipynb` | Demo: TF-IDF vs embeddings side by side, user-profile recommendations, evaluation chart |
