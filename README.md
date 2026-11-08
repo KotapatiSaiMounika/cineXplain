@@ -7,7 +7,7 @@ cineXplain is a movie recommender built on the [MovieLens](https://grouplens.org
 | Member | Module | Docs |
 |---|---|---|
 | 1 | Content-based recommendation (TF-IDF and sentence embeddings) | [docs/member1_content_based.md](docs/member1_content_based.md) |
-| 2 | _TODO: add module and link_ | |
+| 2 | Collaborative filtering (Item-Item KNN and SVD) | [docs/member2_collaborative_filtering.md](docs/member2_collaborative_filtering.md) |
 | 3 | Hybrid recommender (calls `get_content_scores()` from Member 1) | _TODO: add link_ |
 | 4 | _TODO: add module and link_ | |
 | 5 | _TODO: add module and link_ (uses the `collection` field for sequel detection) | |
