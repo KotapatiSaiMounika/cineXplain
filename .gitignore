@@ -30,3 +30,4 @@ evaluation/__pycache__/
 Thumbs.db
 # MovieLens datasets
 data/*.csv
+data/
