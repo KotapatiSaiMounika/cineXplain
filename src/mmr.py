@@ -30,7 +30,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 DATASET_PATHS = [
-    PROJECT_ROOT \ "data" \ "movies_enriched.csv",
+    PROJECT_ROOT / "data" / "movies_enriched.csv",
 ]
 
 # These are automatically selected if present.
