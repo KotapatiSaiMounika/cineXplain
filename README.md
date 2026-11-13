@@ -12,19 +12,24 @@ cineXplain is a movie recommender built on the [MovieLens](https://grouplens.org
 | 4 | Diversity re-ranking with MMR (TF-IDF and cosine similarity) | [docs/member4_mmr_report.md](docs/member4_mmr_report.md) |
 | 5 | Constraint Satisfaction (CSP) and system integration | [docs/member_5_CSP_system_integration.md](docs/member_5_CSP_system_integration.md) |
 
+**Pipeline:** content + CF → hybrid → CSP constraints → MMR → Top-K with explanations.
+
 ## Project Structure
 
 ```text
 cineXplain/
+├── app.py                   # Streamlit web app
 ├── data/                    # MovieLens CSVs and generated files (not committed)
 ├── docs/                    # Documentation for individual modules
-├── reports/                 # Module implementation reports
+├── reports/                 # Experiment outputs and reports
 ├── notebooks/               # Experiments and analysis notebooks
 ├── evaluation/              # Evaluation scripts and saved results
-│   └── mmr_metrics.py        # MMR evaluation metrics
 ├── scripts/                 # Data preparation scripts (e.g. TMDB enrichment)
 ├── src/                     # Recommender implementations
-│   └── mmr.py                # Maximal Marginal Relevance implementation
+│   ├── mmr.py               # Maximal Marginal Relevance
+│   ├── constraints.py       # CSP constraint filter
+│   └── streamlit_engine.py  # Full pipeline used by app.py
+├── tests/                   # Unit tests (run: python -m pytest tests/)
 └── requirements.txt
 ```
 
@@ -97,10 +102,7 @@ Instead of simply selecting the top-ranked movies based on relevance, MMR re-ran
 
 The MMR score is calculated as:
 
-\[
-MMR(d)=\lambda Rel(d)-(1-\lambda)
-\max_{s\in S}Sim(d,s)
-\]
+$$MMR(d) = \lambda \cdot Rel(d) - (1-\lambda) \cdot \max_{s \in S} Sim(d, s)$$
 
 Where:
 
