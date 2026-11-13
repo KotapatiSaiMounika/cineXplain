@@ -272,8 +272,6 @@ cineXplain/
 └── README.md
 ```
 
-*Note: The data files and generated model caches are not committed to the repository. The structure above shows the expected local data directory.*
-
 ---
 
 ## 7. Getting Started
